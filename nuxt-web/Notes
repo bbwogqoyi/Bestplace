@@ -1,0 +1,15 @@
+//
+// pages/admin/properties.vue
+//------------------------------
+// function onSubmit() {   
+//   // upload file
+//   let formData = new FormData()
+//   console.log( uploads)
+//   formData.append('images', uploads)
+//   formData.append('name', location.value)
+//   axios.post('http://localhost:5001/properties', formData, {
+//     headers: { 'content-type': 'multipart/form-data' }
+//   }).then((res) => {
+//     console.log(res)
+//   })
+// }  

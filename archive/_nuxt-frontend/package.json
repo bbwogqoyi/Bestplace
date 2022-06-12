@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "name": "@bestplace/nuxt-frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "start": "node .output/server/index.mjs"
+  },
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@tailwindcss/forms": "^0.4.0",
+    "autoprefixer": "^10.4.2",
+    "nuxt3": "latest",
+    "tailwindcss": "^3.0.18"
+  },
+  "dependencies": {
+    "arangojs": "^7.7.0",
+    "axios": "^0.25.0"
+  },
+  "resolutions": {
+    "resolve": "1.20.0"
+  }
+}

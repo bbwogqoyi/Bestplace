@@ -1,0 +1,21 @@
+Bestplace
+
+- Admin(Enquiries): get the enqiries from DB [partially complete]
+
+- Admin(Add New Admin Users): build the page and logic for submissions [partially complete]
+
+- Property Cards Page(Index): fix image triangle cut-out & use uploaded image [complete]
+
+- Property Details: break-up the address field to multiple fields e.g. address-line-1, postal code, city/town [complete]
+
+- Add Properties Page: atleast one image has to be uploaded [complete]
+
+- Deploy website on afrihost [partially complete]
+
+- 
+
+- Property overview page: Fix the image slide view/show (possible feat: do fullscreen preview (not a major feat)) [partially complete]
+
+- nice to have: indicator for new properties (~1 week duration) [TO DO]
+
+- nice to have: send users notifications of recently listed properties [TO DO]
