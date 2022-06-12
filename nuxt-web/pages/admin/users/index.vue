@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import helpers from '../../../utils/propertyHelpers'
 
-const { data } = await useFetch('http://api.bestplace.co.za/accounts')
+const { data } = await useFetch('https://api.bestplace.co.za/accounts')
 let users = ref(data)
 </script>
 

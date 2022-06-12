@@ -1,7 +1,7 @@
 <script setup>
 import helpers from '../../../utils/propertyHelpers'
 
-const { data } = await useFetch('http://api.bestplace.co.za/enquiries')
+const { data } = await useFetch('https://api.bestplace.co.za/enquiries')
 </script>
 <template>
   <div class="w-full bg-gray-100 py-2">

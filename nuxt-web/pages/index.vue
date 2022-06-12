@@ -10,7 +10,7 @@ definePageMeta({
 let properties = ref([]);
 
 onBeforeMount(() => {
-  axios.get('http://api.bestplace.co.za/properties')
+  axios.get('https://api.bestplace.co.za/properties')
   .then(function(res) {
     if(res.status === 200) {
       properties.value = res.data
