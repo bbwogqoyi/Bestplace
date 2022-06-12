@@ -4,7 +4,8 @@ import axios from "axios";
 
 // This will also work in `<script setup> and <script>`
 definePageMeta({
-  layout: "search-enabled",
+//  layout: "search-enabled",
+  layout: "default",
 });
 
 let properties = ref([]);
@@ -34,7 +35,7 @@ onBeforeMount(() => {
       :images="property.images"
     />
 
-    <div class="h-full content-center" v-if="properties.length==0">
+    <div class="h-full content-center mt-10" v-if="properties.length==0">
       <p class="text-4xl text-center font-bold">No Property Listings In The Database</p>
     </div>
   </div>
