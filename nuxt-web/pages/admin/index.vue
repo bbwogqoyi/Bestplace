@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
 
-const { data } = await useFetch('http://localhost:5001/properties');
+const { data } = await useFetch('http://api.bestplace.co.za/properties');
 let properties = ref(data)
 </script>
 

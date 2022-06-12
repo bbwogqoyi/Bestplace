@@ -29,7 +29,7 @@ function submitEnquiry(e) {
     'message': newEnquiry.value.message
   }
 
-  axios.post('http://localhost:5001/enquiries', enquiry)
+  axios.post('http://api.bestplace.co.za/enquiries', enquiry)
   .then((res) => {
     console.log('response:'+res.status)
     if(res.status == 201) navigateTo({path: '/'});

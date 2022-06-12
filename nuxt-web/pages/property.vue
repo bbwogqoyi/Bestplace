@@ -17,14 +17,14 @@ const getPreviewLink = computed(() => {
   if(images.value.length) {
     console.log(images.value[imgIndex.value].path);
     const path = (images.value[imgIndex.value].path).substring(8).replace('\\','/');
-    return `http://localhost:5001/${path}`;
+    return `http://api.bestplace.co.za/${path}`;
   }
   
   return 'https://placeholder.pics/svg/800x400/DEDEDE/555555/loading...';
 })
 
 onBeforeMount(() => {
-  axios.get(`http://localhost:5001/properties/${id}`)
+  axios.get(`http://api.bestplace.co.za/properties/${id}`)
     .then(function (res) {
       if (res.status === 200) {
         property.value = res.data;

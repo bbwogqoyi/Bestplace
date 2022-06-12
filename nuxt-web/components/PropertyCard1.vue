@@ -19,13 +19,13 @@ const { id, images } = toRefs(props);
 
 const previewLink = computed(() => {
   const path = (images.value[0]['path']).substring(8).replace('\\','/');
-  return `url( http://localhost:5001/${path} )`;
+  return `url( http://api.bestplace.co.za/${path} )`;
 })
 
 </script>
 
 <template>
-  <!-- {{ `url( http://localhost:5001/${ (images[0]['path']).substring(8).replace('\\','/') } )`}} -->
+  <!-- {{ `url( http://api.bestplace.co.za/${ (images[0]['path']).substring(8).replace('\\','/') } )`}} -->
   <div class="w-full lg:w-4/5 mx-auto my-5">
     <div class="relative rounded-lg flex flex-col md:flex-row items-center md:shadow-xl md:h-80 mx-2 md:border-2 cursor-pointer" @click="$router.push(`/property?id=${id}`)">
       <!-- image -->

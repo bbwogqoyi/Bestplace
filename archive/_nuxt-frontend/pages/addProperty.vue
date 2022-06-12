@@ -18,7 +18,7 @@ const uploadSingleFile = async () => {
   try {
     const data = new FormData();
     data.append('file', singleFile)
-    await axios.post('http://localhost:5001/properties', data, {
+    await axios.post('http://api.bestplace.co.za/properties', data, {
       headers: { 'content-type': 'multipart/form-data' }
     })
   } catch(e) {
@@ -34,7 +34,7 @@ const uploadMultipleFiles = async () => {
       console.log(multipleFiles[i])
       data.append('files', multipleFiles[i])
     }
-    await axios.post('http://localhost:5001/properties', data)
+    await axios.post('http://api.bestplace.co.za/properties', data)
   } catch(e) {
     throw e 
   }
@@ -46,7 +46,7 @@ const uploadMultipleFiles = async () => {
 //   console.log( uploads)
 //   formData.append('images', uploads)
 //   formData.append('name', location.value)
-//   axios.post('http://localhost:5001/properties', formData, {
+//   axios.post('http://api.bestplace.co.za/properties', formData, {
 //     headers: { 'content-type': 'multipart/form-data' }
 //   }).then((res) => {
 //     console.log(res)
