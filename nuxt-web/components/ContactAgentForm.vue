@@ -29,7 +29,9 @@ function submitEnquiry(e) {
     'message': newEnquiry.value.message
   }
 
-  axios.post('https://api.bestplace.co.za/enquiries', enquiry)
+  axios.post('https://api.bestplace.co.za/enquiries', enquiry, {
+      headers: { 'Access-Control-Allow-Origin': '*' }
+    })
   .then((res) => {
     console.log('response:'+res.status)
     if(res.status == 201) navigateTo({path: '/'});

@@ -10,7 +10,9 @@ const newAccount = ref({});
 
 function signUp() {
   console.log(JSON.stringify(newAccount.value))
-  axios.post('https://api.bestplace.co.za/accounts', newAccount.value)
+  axios.post('https://api.bestplace.co.za/accounts', newAccount.value, {
+    headers: { 'Access-Control-Allow-Origin': '*' }
+  })
   .then((res) => {
     console.log('response:'+res.status)
     if(res.status == 201) navigateTo({path: '/signin'});

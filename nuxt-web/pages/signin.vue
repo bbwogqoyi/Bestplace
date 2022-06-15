@@ -9,7 +9,9 @@ definePageMeta({
 const account = ref({});
 
 function signIn() {
-  axios.post('https://api.bestplace.co.za/accounts/signin', account.value)
+  axios.post('https://api.bestplace.co.za/accounts/signin', account.value, {
+    headers: { 'Access-Control-Allow-Origin': '*' }
+  })
   .then((res) => {
     if(res.status == 200) {
       console.log('response:'+ JSON.stringify(res.data))
