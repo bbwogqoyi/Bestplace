@@ -21,6 +21,7 @@ const properties = express.Router()
 properties.use((req, res, next) => {
   console.log('Requested URI Path : ', req.url)
   req._uuid = crypto.randomUUID();
+  res.setHeader('Access-Control-Allow-Origin', '*');
   next()
 })
 
