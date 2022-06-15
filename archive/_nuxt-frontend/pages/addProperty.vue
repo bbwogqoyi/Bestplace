@@ -19,7 +19,7 @@ const uploadSingleFile = async () => {
     const data = new FormData();
     data.append('file', singleFile)
     await axios.post('https://api.bestplace.co.za/properties', data, {
-      headers: { 'content-type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' }
+      headers: { 'Access-Control-Allow-Origin': '*' }
     })
   } catch(e) {
     throw e 
@@ -35,7 +35,7 @@ const uploadMultipleFiles = async () => {
       data.append('files', multipleFiles[i])
     }
     await axios.post('https://api.bestplace.co.za/properties', data, {
-      headers: { 'content-type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' }
+      headers: { 'Access-Control-Allow-Origin': '*' }
     })
   } catch(e) {
     throw e 
@@ -48,9 +48,7 @@ const uploadMultipleFiles = async () => {
 //   console.log( uploads)
 //   formData.append('images', uploads)
 //   formData.append('name', location.value)
-//   axios.post('https://api.bestplace.co.za/properties', formData, {
-//     headers: { 'content-type': 'multipart/form-data' }
-//   }).then((res) => {
+//   axios.post('https://api.bestplace.co.za/properties', formData).then((res) => {
 //     console.log(res)
 //   })
 // }  

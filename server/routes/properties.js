@@ -10,16 +10,17 @@ import { aql } from 'arangojs';
 
 // own modules 
 import db from '../config/arango.js'
-import multer from '../helpers/fsHandler.js'
+import upload from '../helpers/fsHandler.js'
 
 const properties = express.Router()
-const upload = multer.array('files')
+
      
 // const properties = db.collection('properties');
 
 // middleware that is specific to this router
 properties.use((req, res, next) => {
   console.log('Requested URI Path : ', req.url)
+  req._uuid = crypto.randomUUID();
   next()
 })
 
@@ -85,37 +86,36 @@ properties.get('/properties', function (req, res) {
 /**
  * Add new property record into DB
  */
-properties.post('/properties', function (req, res) {
-  req._uuid = crypto.randomUUID();
-  upload(req, res, function (err) {
-    if (err) {
-      // An unknown error occurred when uploading.
-      console.log(err.message)
-      res.status(StatusCodes.BAD_REQUEST).json(err)
-    } else {
-      let property = req.body;
-      property['status'] = 0; // new properties have the DRAFT status
-      property['listingDate'] = (new Date()).toISOString();
-      property['images'] = req.files;
+properties.post('/upload', upload.array('files'), function (req, res) {
+  if(req.files) {
+    console.log(req.files);
+    res.status(StatusCodes.ACCEPTED).json({ message: "Successfully uploaded files" });
+  } else {
+    res.status(StatusCodes.BAD_REQUEST)
+  }
+})
 
-      console.log(`Propert Info:\n${JSON.stringify(property)}`)
-      
-      const query = `INSERT ${JSON.stringify(property)} IN Properties RETURN NEW`;
-      console.log(query);
-      db.query(query).then(
-        cursor => cursor.all()
-      ).then(
-        docs => {
-          console.log(`${docs.length} document(s) saved`)
-          res.status(StatusCodes.CREATED).json({ ...docs[0] })
-        },
-        err => {
-          console.error('Failed to execute query:', err.body)
-          res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(ReasonPhrases.INTERNAL_SERVER_ERROR)
-        }
-      );
+properties.post('/properties', function (req, res) {
+  let property = req.body;
+  property['status'] = 0; // new properties have the DRAFT status
+  property['listingDate'] = (new Date()).toISOString();
+
+  console.log(`Propert Info:\n${JSON.stringify(property)}`)
+  
+  const query = `INSERT ${JSON.stringify(property)} IN Properties RETURN NEW`;
+  console.log(query);
+  db.query(query).then(
+    cursor => cursor.all()
+  ).then(
+    docs => {
+      console.log(`${docs.length} document(s) saved`)
+      res.status(StatusCodes.CREATED).json({ ...docs[0] })
+    },
+    err => {
+      console.error('Failed to execute query:', err.body)
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(ReasonPhrases.INTERNAL_SERVER_ERROR)
     }
-  })
+  );
 })
 
 properties.get('/accounts', function (req, res) {
