@@ -52,9 +52,7 @@ const persistPropertyInfo = function(files) {
     const data = propertyDetails.value;
     data['files'] = files;
 
-    axios.post('https://api.bestplace.co.za/properties', data, {
-      headers: { 'Access-Control-Allow-Origin': '*' }
-    })
+    axios.post('https://api.bestplace.co.za/properties', data)
     .then(function(res) {
       if(res.status === 201) {
         console.log(res.data._id);

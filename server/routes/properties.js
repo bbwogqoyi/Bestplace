@@ -86,6 +86,7 @@ const upload = (options = {}) => (req, _res, next) => {
     .then((results) => {
       req.fields = results.fields;
       req.files = results.files;
+      req.setHeader('Access-Control-Allow-Origin', '*');
       _res.setHeader('Access-Control-Allow-Origin', '*');
       next();
     })
@@ -93,7 +94,7 @@ const upload = (options = {}) => (req, _res, next) => {
 };
 
 const manager = new DiskManager({
-  directory: "./uploads"
+  directory: path.join('uploads', req._uuid)
 });
 
 properties.post("/upload", upload({ manager }), (req, res) => {
