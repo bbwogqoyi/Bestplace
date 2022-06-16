@@ -13,11 +13,12 @@ const isAuthenticated = computed(
 );
 const imgIndex = ref(0);
 const images = ref([]);
+const imagesDir = ref('');
+
 const getPreviewLink = computed(() => {
   if(images.value.length) {
-    console.log(images.value[imgIndex.value].path);
-    const path = (images.value[imgIndex.value].path).substring(8).replace('\\','/');
-    return `https://api.bestplace.co.za/${path}`;
+    const path = `${imagesDir.value}/${(images.value[imgIndex.value]['id'])}`;
+    return `https://bestplace.co.za/static/${path}`;
   }
   
   return 'https://placeholder.pics/svg/800x400/DEDEDE/555555/loading...';
@@ -29,6 +30,7 @@ onBeforeMount(() => {
       if (res.status === 200) {
         property.value = res.data;
         images.value = res.data.images;
+        imagesDir.value = res.data.imagesDir;
       }
     })
 

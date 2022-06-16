@@ -9,7 +9,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('uploads'))
+//app.use(express.static('uploads'))
 
 function two(req, res, next) {
   req.foo = '...needs better demo 😔';

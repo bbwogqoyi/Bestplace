@@ -16,17 +16,17 @@ const props = defineProps({
   images: Array
 });
 
-const { id, images } = toRefs(props);
+const { id, images, imagesDir } = toRefs(props);
 
 const previewLink = computed(() => {
-  const path = (images.value[0]['id']).substring(8).replace('\\','/');
-  return `url( https://api.bestplace.co.za/${imagesDir}/${path} )`;
+  const path = `${imagesDir.value}/${(images.value[0]['id'])}`;
+  console.log(`url( https://bestplace.co.za/static/${path} )`);
+  return `url( https://bestplace.co.za/static/${path} )`;
 })
 
 </script>
 
 <template>
-  <!-- {{ `url( https://api.bestplace.co.za/${ (images[0]['path']).substring(8).replace('\\','/') } )`}} -->
   <div class="w-full lg:w-4/5 mx-auto my-5">
     <div class="relative rounded-lg flex flex-col md:flex-row items-center md:shadow-xl md:h-80 mx-2 md:border-2 cursor-pointer" @click="$router.push(`/property?id=${id}`)">
       <!-- image -->
