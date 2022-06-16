@@ -41,7 +41,8 @@ const uploadMultipleFiles = function() {
     })
     .then(function(res) {
       if(res.status === 202) {
-        persistPropertyInfo(res.data);
+        console.log('files\n'+JSON.stringify(res.data))
+        persistPropertyInfo(res.data.files, res.data.filesDir);
       }
     })
   } catch(e) {
@@ -49,10 +50,11 @@ const uploadMultipleFiles = function() {
   }
 }
 
-const persistPropertyInfo = function(files) {
+const persistPropertyInfo = function(files, filesDir) {
    try {
     const data = propertyDetails.value;
-    data['files'] = files;
+    data['images'] = files;
+    data['imagesDir'] = filesDir;
 
     axios.post('https://api.bestplace.co.za/properties', data, {
       headers: { 'Access-Control-Allow-Origin': '*' }

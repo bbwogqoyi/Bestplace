@@ -12,14 +12,15 @@ const props = defineProps({
   numOfParkingSpaces: Number,
   erfSize: Number,
   description: String,
+  imagesDir: String,
   images: Array
 });
 
 const { id, images } = toRefs(props);
 
 const previewLink = computed(() => {
-  const path = (images.value[0]['path']).substring(8).replace('\\','/');
-  return `url( https://api.bestplace.co.za/${path} )`;
+  const path = (images.value[0]['id']).substring(8).replace('\\','/');
+  return `url( https://api.bestplace.co.za/${imagesDir}/${path} )`;
 })
 
 </script>

@@ -1,6 +1,7 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { DiskManager, Transmit } from "@quicksend/transmit";
 import path from 'path';
+import fs from 'fs';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import express from 'express';
@@ -14,8 +15,8 @@ const properties = express.Router()
 
 // middleware that is specific to this router
 properties.use((req, res, next) => {
-  console.log('Requested URI Path : ', req.url)
-  req._uuid = crypto.randomUUID();
+  console.log('Requested URI Path : ', req.url);
+  res.setHeader('Access-Control-Allow-Origin', '*');
   next()
 })
 
@@ -81,31 +82,42 @@ properties.get('/properties', function (req, res) {
 
 // Implement transmit as an express middleware
 const upload = (options) => (req, _res, next) => {
-  let manager = options(req);
-  console.log(`upload.manager\n${JSON.stringify(manager)}`)
-  return new Transmit({ manager:manager })
+  const _dirname = '/var/www/bestplace/server/uploads/';
+  const _dir = path.join(_dirname, crypto.randomUUID());
+  const manager = new DiskManager({
+    directory: _dir
+  });
+
+  fs.mkdir(_dir, (err) => {
+    if (err) {
+      return console.error(err);
+    }
+    console.log('Directory "'+ _dir +'" created successfully!');
+  });
+
+  return new Transmit({ manager, ...options })
     .parseAsync(req)
     .then((results) => {
-      req.fields = results.fields;
+      //req.fields = results.fields;
       req.files = results.files;
+      req.filesDir = _dir;
       _res.setHeader('Access-Control-Allow-Origin', '*');
+      console.log('files\n'+JSON.stringify(req.files));
       next();
     })
-    .catch((error) => next(error));
+    .catch((error) => {
+      console.log('Upload errors\n'+JSON.stringify(error));
+       next(error);
+    });
 };
 
-const manager = (req) => {
-  return new DiskManager({
-    directory: path.join('uploads', req._uuid)
-  });
-}
-
-properties.post("/upload", upload(manager), (req, res) => {
+properties.post("/upload", upload({ minFiles: 0, maxFiles: 25 }), (req, res) => {
   console.log(`Upload Complete\n${req.files}`);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.status(StatusCodes.ACCEPTED).send({
-    fields: req.fields,
-    files: req.files
+    //fields: req.fields,
+    files: req.files,
+    filesDir: req.filesDir
   });
 });
 
