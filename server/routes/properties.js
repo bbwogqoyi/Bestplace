@@ -7,18 +7,15 @@ import express from 'express';
 
 // own modules 
 import db from '../config/arango.js'
-import upload from '../helpers/fsHandler.js'
 
-const properties = express.Router()
 
-     
 // const properties = db.collection('properties');
+const properties = express.Router()
 
 // middleware that is specific to this router
 properties.use((req, res, next) => {
   console.log('Requested URI Path : ', req.url)
   req._uuid = crypto.randomUUID();
-  res.setHeader('Access-Control-Allow-Origin', '*');
   next()
 })
 
@@ -89,17 +86,20 @@ const upload = (options = {}) => (req, _res, next) => {
     .then((results) => {
       req.fields = results.fields;
       req.files = results.files;
-
+      _res.setHeader('Access-Control-Allow-Origin', '*');
       next();
     })
     .catch((error) => next(error));
 };
+
 const manager = new DiskManager({
   directory: "./uploads"
 });
 
 properties.post("/upload", upload({ manager }), (req, res) => {
-  res.send({
+  console.log(`Upload Complete\n${req.files}`);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.status(StatusCodes.ACCEPTED).send({
     fields: req.fields,
     files: req.files
   });
