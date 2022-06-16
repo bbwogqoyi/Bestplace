@@ -36,9 +36,7 @@ const uploadMultipleFiles = function() {
       data.append('files', multipleFiles[i])
     }
 
-    axios.post('https://api.bestplace.co.za/upload', data, {
-      headers: { 'Access-Control-Allow-Origin': '*' }
-    })
+    axios.post('https://api.bestplace.co.za/upload', data)
     .then(function(res) {
       if(res.status === 202) {
         persistPropertyInfo(res.data);

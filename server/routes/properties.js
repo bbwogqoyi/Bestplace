@@ -1,12 +1,9 @@
-import {
-	ReasonPhrases, StatusCodes, getReasonPhrase, 	getStatusCode,
-} from 'http-status-codes';
-
+import { ReasonPhrases, StatusCodes } from 'http-status-codes';
+import { DiskManager, Transmit } from "@quicksend/transmit";
 import path from 'path';
 import crypto from 'crypto';
 import bcrypt from 'bcrypt';
 import express from 'express';
-import { aql } from 'arangojs';
 
 // own modules 
 import db from '../config/arango.js'
@@ -84,18 +81,42 @@ properties.get('/properties', function (req, res) {
   );
 })
 
+
+// Implement transmit as an express middleware
+const upload = (options = {}) => (req, _res, next) => {
+  return new Transmit(options)
+    .parseAsync(req)
+    .then((results) => {
+      req.fields = results.fields;
+      req.files = results.files;
+
+      next();
+    })
+    .catch((error) => next(error));
+};
+const manager = new DiskManager({
+  directory: "./uploads"
+});
+
+properties.post("/upload", upload({ manager }), (req, res) => {
+  res.send({
+    fields: req.fields,
+    files: req.files
+  });
+});
+
+// properties.post('/upload', upload.array('files'), function (req, res) {
+//   if(req.files) {
+//     console.log(req.files);
+//     res.status(StatusCodes.ACCEPTED).json({ message: "Successfully uploaded files" });
+//   } else {
+//     res.status(StatusCodes.BAD_REQUEST)
+//   }
+// })
+
 /**
  * Add new property record into DB
  */
-properties.post('/upload', upload.array('files'), function (req, res) {
-  if(req.files) {
-    console.log(req.files);
-    res.status(StatusCodes.ACCEPTED).json({ message: "Successfully uploaded files" });
-  } else {
-    res.status(StatusCodes.BAD_REQUEST)
-  }
-})
-
 properties.post('/properties', function (req, res) {
   let property = req.body;
   property['status'] = 0; // new properties have the DRAFT status
