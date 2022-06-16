@@ -81,7 +81,8 @@ properties.get('/properties', function (req, res) {
 
 // Implement transmit as an express middleware
 const upload = (options = {}) => (req, _res, next) => {
-  return new Transmit(options)
+  let { manager }  = options.manager(req);
+  return new Transmit({ manager })
     .parseAsync(req)
     .then((results) => {
       req.fields = results.fields;
@@ -93,9 +94,11 @@ const upload = (options = {}) => (req, _res, next) => {
     .catch((error) => next(error));
 };
 
-const manager = new DiskManager({
-  directory: path.join('uploads', req._uuid)
-});
+const manager = (req) => {
+  new DiskManager({
+    directory: path.join('uploads', req._uuid)
+  });
+}
 
 properties.post("/upload", upload({ manager }), (req, res) => {
   console.log(`Upload Complete\n${req.files}`);
