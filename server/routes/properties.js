@@ -80,8 +80,8 @@ properties.get('/properties', function (req, res) {
 
 
 // Implement transmit as an express middleware
-const upload = (options = {}) => (req, _res, next) => {
-  let { manager }  = options.manager(req);
+const upload = (options) => (req, _res, next) => {
+  let manager = options(req);
   return new Transmit({ manager })
     .parseAsync(req)
     .then((results) => {
@@ -100,7 +100,7 @@ const manager = (req) => {
   });
 }
 
-properties.post("/upload", upload({ manager }), (req, res) => {
+properties.post("/upload", upload(manager), (req, res) => {
   console.log(`Upload Complete\n${req.files}`);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.status(StatusCodes.ACCEPTED).send({
