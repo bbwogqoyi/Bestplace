@@ -131,6 +131,7 @@ properties.post('/properties', function (req, res) {
   ).then(
     docs => {
       console.log(`${docs.length} document(s) saved`)
+      res.setHeader('Access-Control-Allow-Origin', '*');
       res.status(StatusCodes.CREATED).json({ ...docs[0] })
     },
     err => {
