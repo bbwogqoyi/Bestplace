@@ -36,7 +36,9 @@ const uploadMultipleFiles = function() {
       data.append('files', multipleFiles[i])
     }
 
-    axios.post('https://api.bestplace.co.za/upload', data)
+    axios.post('https://api.bestplace.co.za/upload', data, {
+      headers: { 'Access-Control-Allow-Origin': '*' }
+    })
     .then(function(res) {
       if(res.status === 202) {
         persistPropertyInfo(res.data);
@@ -52,7 +54,9 @@ const persistPropertyInfo = function(files) {
     const data = propertyDetails.value;
     data['files'] = files;
 
-    axios.post('https://api.bestplace.co.za/properties', data)
+    axios.post('https://api.bestplace.co.za/properties', data, {
+      headers: { 'Access-Control-Allow-Origin': '*' }
+    })
     .then(function(res) {
       if(res.status === 201) {
         console.log(res.data._id);
