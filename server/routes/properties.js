@@ -95,7 +95,7 @@ const upload = (options) => (req, _res, next) => {
 };
 
 const manager = (req) => {
-  new DiskManager({
+  return new DiskManager({
     directory: path.join('uploads', req._uuid)
   });
 }
