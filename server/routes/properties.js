@@ -82,8 +82,9 @@ properties.get('/properties', function (req, res) {
 
 // Implement transmit as an express middleware
 const upload = (options) => (req, _res, next) => {
+  const _uuid = crypto.randomUUID();
   const _dirname = '/var/www/bestplace/server/uploads/';
-  const _dir = path.join(_dirname, crypto.randomUUID());
+  const _dir = path.join(_dirname, _uuid);
   const manager = new DiskManager({
     directory: _dir
   });
@@ -100,7 +101,7 @@ const upload = (options) => (req, _res, next) => {
     .then((results) => {
       //req.fields = results.fields;
       req.files = results.files;
-      req.filesDir = _dir;
+      req.filesDir = _uuid;
       _res.setHeader('Access-Control-Allow-Origin', '*');
       console.log('files\n'+JSON.stringify(req.files));
       next();

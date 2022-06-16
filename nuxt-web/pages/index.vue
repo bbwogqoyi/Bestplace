@@ -32,6 +32,7 @@ onBeforeMount(() => {
       :numOfParkingSpaces="parseInt(property.numOfParkingSpaces)"
       :erfSize="parseFloat(property.erfSize)"
       :description="property.description"
+      :imagesDir="property.imagesDir"
       :images="property.images"
     />
 
