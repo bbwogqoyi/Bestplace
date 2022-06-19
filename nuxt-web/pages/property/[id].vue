@@ -1,19 +1,22 @@
 <script setup>
 import { ref, computed } from 'vue'
 import axios from "axios";
-import statusEnum from '../utils/status_enum'
-import helpers from '../utils/propertyHelpers'
+import statusEnum from '../../utils/status_enum'
+import helpers from '../../utils/propertyHelpers'
 
 const route = useRoute()
-const id = route.query.id;
+const id = route.params.id;
 const property = ref({});
-const loggedInUser = ref(null);
-const isAuthenticated = computed(
-  () => (loggedInUser.value !== null && loggedInUser.value !== undefined)
-);
+
 const imgIndex = ref(0);
 const images = ref([]);
 const imagesDir = ref('');
+const loggedInUser = ref(useCookie('user').value || null )
+
+const { data } = await useFetch(`https://api.bestplace.co.za/properties/${id}`);
+property.value = data.value;
+images.value = data.value.images;
+imagesDir.value = data.value.imagesDir;
 
 const getPreviewLink = computed(() => {
   if(images.value.length) {
@@ -24,21 +27,12 @@ const getPreviewLink = computed(() => {
   return 'https://placeholder.pics/svg/800x400/DEDEDE/555555/loading...';
 })
 
-onBeforeMount(() => {
-  axios.get(`https://api.bestplace.co.za/properties/${id}`)
-    .then(function (res) {
-      if (res.status === 200) {
-        property.value = res.data;
-        images.value = res.data.images;
-        imagesDir.value = res.data.imagesDir;
-      }
-    })
+const getImageLink = (index) => {
+  const path = `${imagesDir.value}/${(images.value[index]['id'])}`;
+  return `https://bestplace.co.za/static/${path}`;
+}
 
-  const user = localStorage.getItem('user')
-  if (user) {
-    loggedInUser.value = JSON.parse(user)
-  }
-})
+
 </script>
 
 <template>
@@ -62,12 +56,14 @@ onBeforeMount(() => {
       <div class="flex justify-between items-center">
         <div
           class="hidden md:flex justify-center items-center h-32 w-16 rounded-tr-full rounded-br-full bg-gray-200  hover:bg-gray-400"
-          @click="imgIndex = (--imgIndex)%images.length">
+          @click="imgIndex = (--imgIndex < 0) ? (images.length -1) : (imgIndex%images.length)">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
         </div>
-        <img class="h-96" :src="getPreviewLink" />
+        <template v-for="(item, index) in images" :key="index">
+          <img class="h-96" :src="getImageLink(index)" v-show="index == imgIndex"  />
+        </template>
         <div
           class="hidden md:flex justify-center items-center h-32 w-16 rounded-tl-full rounded-bl-full bg-gray-200 hover:bg-gray-400"
           @click="imgIndex = (++imgIndex)%images.length">
@@ -137,7 +133,7 @@ onBeforeMount(() => {
             <!-- Icons -->
             <div class="flex space-x-6 py-2 text-gray-700">
               <!-- Bedrooms -->
-              <div class="flex items-center">
+              <div class="flex items-center" title="Bedrooms" v-if="property.numOfBeds != null || property.numOfBeds != undefined">
                 <svg class="h-6 w-6 text-gray-600 fill-current mr-3" xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24">
                   <path
@@ -148,7 +144,7 @@ onBeforeMount(() => {
               </div>
 
               <!-- Bathrooms -->
-              <div class="flex items-center">
+              <div class="flex items-center" title="Bathrooms" v-if="property.numOfBaths != null || property.numOfBaths != undefined">
                 <svg class="h-6 w-6 text-gray-600 fill-current mr-3" xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24">
                   <path fill-rule="evenodd"
@@ -159,7 +155,7 @@ onBeforeMount(() => {
               </div>
 
               <!-- Parking/Garage Spaces -->
-              <div class="flex items-center">
+              <div class="flex items-center" title="Parking Spaces" v-if="property.numOfParkingSpaces != null || property.numOfParkingSpaces != undefined">
                 <svg class="h-8 w-8 text-gray-500 mr-2" xmlns="http://www.w3.org/2000/svg"
                   xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
                   <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -172,7 +168,7 @@ onBeforeMount(() => {
               </div>
 
               <!-- Eff Area -->
-              <div class="flex items-center">
+              <div class="flex items-center" title="Erf Space" v-if="property.erfSize != null || property.erfSize != undefined">
                 <svg class="h-6 w-6 text-gray-700 mr-3 stroke-current" xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24" fill="none">
                   <path
@@ -247,7 +243,10 @@ onBeforeMount(() => {
         </div>
 
         <div class="w-full md:w-2/5">
-          <ContactAgentForm :propertyId='id' :isAuthenticated='isAuthenticated' :loggedInUser='loggedInUser' />
+          <ContactAgentForm
+            :loggedInUser="loggedInUser"
+            :propertyId="id"
+          />
         </div>
 
       </div>
@@ -255,3 +254,6 @@ onBeforeMount(() => {
     </div>
   </div>
 </template>
+
+
+

@@ -7,6 +7,14 @@ function signOut() {
   localStorage.clear();
   navigateTo({ path: '/signin'})
 }
+
+  
+// function deleteCookie1()  
+// {  
+//     document.cookie=cookie1+";max-age=0";  
+//     cookie1=document.cookie;  
+//     alert("Cookie1 is deleted");  
+// }  
 </script>
 
 <template>

@@ -1,6 +1,5 @@
 <script setup>
-import { ref, computed, onBeforeMount } from 'vue'
-import axios from "axios";
+import { ref } from 'vue'
 
 // This will also work in `<script setup> and <script>`
 definePageMeta({
@@ -10,14 +9,9 @@ definePageMeta({
 
 let properties = ref([]);
 
-onBeforeMount(() => {
-  axios.get('https://api.bestplace.co.za/properties')
-  .then(function(res) {
-    if(res.status === 200) {
-      properties.value = res.data
-    }
-  })
-})
+const { data } = await useFetch(`https://api.bestplace.co.za/properties`);
+properties = data;
+
 </script>
 
 <template>

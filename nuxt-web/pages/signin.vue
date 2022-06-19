@@ -15,7 +15,6 @@ function signIn() {
   .then((res) => {
     if(res.status == 200) {
       console.log('response:'+ JSON.stringify(res.data))
-      localStorage.setItem('user', JSON.stringify(res.data));
       document.cookie=`user=${JSON.stringify(res.data)}; path=/`
       navigateTo({path: '/'});
     }
