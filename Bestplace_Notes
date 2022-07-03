@@ -19,3 +19,15 @@ Bestplace
 - nice to have: indicator for new properties (~1 week duration) [TO DO]
 
 - nice to have: send users notifications of recently listed properties [TO DO]
+
+
+cd /var/www/bestplace
+git pull
+cd nuxt-web/ && npm run build && cd ..
+
+pm2 delete all
+
+pm2 start server/index.js -i max && pm2 start nuxt-web/.output/server/index.mjs -i max
+
+node server/index.js
+node nuxt-web/.output/server/index.mjs

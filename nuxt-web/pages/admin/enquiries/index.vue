@@ -27,39 +27,6 @@ const { data } = await useFetch('https://api.bestplace.co.za/enquiries')
                 class="p-2 w-10/12 bg-gray-50 text-sm focus:outline-none border border-gray-300 rounded-tr-xl rounded-br-xl"
                 type="text" placeholder="Search by Property Name ..." />
             </div>
-
-            <!-- This is an example component -->
-            <div class="relative inline-flex">
-              <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero"/></svg>
-              <select class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
-                <option>Choose a color</option>
-                <option>Red</option>
-                <option>Blue</option>
-                <option>
-                  <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-400" fill="none"
-                  viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    <span>TEST</span>
-                  </div>
-                </option>
-                <option>Black</option>
-                <option>Orange</option>
-                <option>Purple</option>
-                <option>Gray</option>
-                <option>White</option>
-              </select>
-            </div>
-
-            <!-- New Property Button -->
-            <!-- <button class="border border-green-500 bg-green-500 text-white rounded-sm font-bold py-4 px-6 mr-2 flex items-center">
-      New Property
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-      </svg>
-    </button> -->
           </div>
 
           <!-- Enquiry Table  -->
