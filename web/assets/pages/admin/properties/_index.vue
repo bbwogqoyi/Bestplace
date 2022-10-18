@@ -1,24 +1,29 @@
 <script setup>
-import { ref, computed } from 'vue'
-
+import { ref, computed, onMounted } from 'vue'
+import axios from "axios";
 const router = useRouter();
-const route = useRoute();
 
 // vars for the image upload
+let singleFile = null;
 let multipleFiles = null;
-const isActive = ref(false);
-const id = route.query.id;
-
-// property specific fields
 const propertyDetails = ref({});
-const images = ref([]);
-const imagesDir = ref('');
+const isActive = ref(false);
 
-// retrieve property info from API
-const { data } = await useFetch(`https://api.bestplace.co.za/properties/${id}`);
-propertyDetails.value = data.value
-images.value = data.value.images;
-imagesDir.value = data.value.imagesDir;
+function onSingleFileChange (event) {
+  singleFile = event.target.files[0];
+}
+
+const uploadSingleFile = async () => {
+  try {
+    const data = new FormData();
+    data.append('file', singleFile)
+    await axios.post('https://api.bestplace.co.za/properties', data, {
+      headers: { 'Access-Control-Allow-Origin': '*' }
+    })
+  } catch(e) {
+    throw e 
+  }
+}
 
 function onMultipleFilesChange (event) {
   multipleFiles = event.target.files;
@@ -67,14 +72,6 @@ const persistPropertyInfo = function(files, filesDir) {
     throw e 
   }
 }
-
-const getImageLink = (index) => {
-  const path = `${imagesDir.value}/${(images.value[index]['id'])}`;
-  return `https://bestplace.co.za/static/${path}`;
-}
-
-
-
 
 </script>
 
@@ -278,22 +275,8 @@ const getImageLink = (index) => {
 
           <div class="w-full space-y-4">
             <p class="font-semibold text-2xl ">Property Images</p>
-
-            <div class="w-full flex flex-row flex-wrap pb-2">
-              <div v-for="(image, index) in images" :key="image._key">
-                <img :src="getImageLink(index)" :alt="image['name']" class="object-fill w-48 h-48 m-1"/>
-              </div>
-            </div>
-
             <input id="files" name="files" type="file" multiple="multiple" @change="onMultipleFilesChange" 
-            class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-300 file:text-violet-900 hover:file:bg-violet-100 file:outline-none">
-          </div>
-
-          
-
-
-          <div class="w-full h-full object-fill object-center bg-blue-400 bg-opacity-30 bg-cover bg-bottom"
-            :style="{ 'background-image': getImageLink(0) }" style="background-blend-mode: multiply;">
+            class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100 file:outline-none">
           </div>
           
 
@@ -327,11 +310,15 @@ const getImageLink = (index) => {
           
           <div class="py-3 bg-gray-50 text-right space-x-4">
             <!-- @click="$router.push('/admin/')" -->
-            <button @click="isActive = !isActive" type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#007bfc] hover:bg-gradient-to-r hover:from-[#007bfc] hover:to-[#51b9ff] focus:outline-none ">
+            <button @click="isActive = !isActive" type="button" class="hidden inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#007bfc] hover:bg-gradient-to-r hover:from-[#007bfc] hover:to-[#51b9ff] focus:outline-none ">
               <span class="font-medium text-lg">Update</span>
             </button>
 
-            <button @click="router.go(-1)" type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#fc1d00] hover:bg-gradient-to-r hover:from-[#fc1d00] hover:to-[#ff6b51] focus:outline-none ">
+            <button @click="uploadMultipleFiles" type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#007bfc] hover:bg-gradient-to-r hover:from-[#007bfc] hover:to-[#51b9ff] focus:outline-none ">
+              <span class="font-medium text-lg">Add</span>
+            </button>
+
+            <button @click="router.push('/admin/')" type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#fc1d00] hover:bg-gradient-to-r hover:from-[#fc1d00] hover:to-[#ff6b51] focus:outline-none ">
               <span class="font-medium text-lg">Cancel</span>
             </button>
           </div>

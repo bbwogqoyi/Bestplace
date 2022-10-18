@@ -57,8 +57,6 @@ const isNotEmpty = (value) => {
             <h3 class="font-bold text-2xl text-gray-700">{{ province }}</h3>
             <h4 class="text-xl text-gray-400">{{ city }}</h4>
           </div>
-
-          
           
           <!-- <p class="text-gray-600 text-justify">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ratione itaque
             perspiciatis quod sapiente quidem, vero consectetur quae iure error tempore reprehenderit unde veritatis
@@ -76,7 +74,6 @@ const isNotEmpty = (value) => {
           <div class="mb-1 max-h-28 break-words whitespace-pre overflow-hidden">
             <p class="text-sm uppercase font-semibold text-gray-400" v-if="helpers.showDescription(description)">Description</p>
             <p class="text-gray-600 text-justify break-words whitespace-pre-wrap">{{ description }}</p>
-            <p class="text-gray-800 text-2xl">{{ `/property/${id}` }}</p>
           </div>
           <!-- Icons -->
           <div class="flex flex-col">

@@ -2,10 +2,10 @@
 import { ref } from 'vue'
 
 // This will also work in `<script setup> and <script>`
-// definePageMeta({
-// //  layout: "search-enabled",
-//   layout: "default",
-// });
+definePageMeta({
+//  layout: "search-enabled",
+  layout: "default",
+});
 
 let properties = ref([]);
 
@@ -16,7 +16,7 @@ properties = data;
 
 <template>
   <div class="mb-14">
-    <!-- <PropertyCard1 v-for="property in properties" 
+    <PropertyCard1 v-for="property in properties" 
       :id="property._key"
       :city="property.city"
       :province="property.province"
@@ -28,9 +28,9 @@ properties = data;
       :description="property.description"
       :imagesDir="property.imagesDir"
       :images="property.images"
-    /> -->
+    />
 
-    <div class="h-full content-center mt-10">
+    <div class="h-full content-center mt-10" v-if="properties.length == 0">
       <p class="text-4xl text-center font-bold">No Property Listings In The Database</p>
     </div>
   </div>
