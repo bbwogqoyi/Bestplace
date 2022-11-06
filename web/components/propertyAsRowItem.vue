@@ -55,7 +55,7 @@ function deleteProperty(id) {
       <span title="Open context menu">
         <VDropdown :distance="-10" :skidding="20" :triggers="['focus', 'click']" :popperHideTriggers="['hover']">
           <!-- This will be the popover reference (for the events and position) -->
-          <button class="relative z-10 flex items-center p-2 text-sm text-gray-600 bg-white border-transparent rounded-md  focus:ring-opacity-40 dark:focus:ring-opacity-40 dark:focus:ring-blue-400 focus:ring dark:text-white dark:bg-gray-800 focus:outline-none group ">
+          <button class="relative z-10 flex items-center p-2 text-sm text-gray-600 bg-white border-transparent rounded-md  focus:ring-opacity-40 dark:focus:ring-opacity-40 dark:focus:ring-blue-400 focus:ring dark:text-white focus:outline-none group ">
             <!-- 
             <span class="mx-1">Actions</span>
             <svg class="w-5 h-5 mx-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,7 +63,7 @@ function deleteProperty(id) {
             </svg> 
             -->
             
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 group-hover:text-gray-900 group-hover:border-black border-b-2" viewBox="0 0 20 20" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 group-hover:text-gray-900 group-hover:border-black border-b-2 border-gray-300 pb-1" viewBox="0 0 20 20" fill="currentColor">
               <path
                 d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
             </svg>
@@ -72,14 +72,14 @@ function deleteProperty(id) {
 
           <!-- Dropdown menu -->
           <template #popper>
-            <div class="w-56 py-0 overflow-hidden bg-white rounded-md shadow-xl drop-shadow-xl dark:bg-gray-800 ">
+            <div class="w-56 py-0 overflow-hidden bg-white rounded-md shadow-xl drop-shadow-xl text-gray-900 ">
               <div class="cursor-pointer group">
-                <a @click="editProperty(id)" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100">
+                <a @click="editProperty(id)" class="block px-4 py-3 text-sm text-gray-900 capitalize transition-colors duration-200 transform hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:font-semibold border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100">
                   Edit
                 </a>
               </div>
               <div class="cursor-pointer group">
-                <a @click="deleteProperty(id)" class="block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white border-transparent border-l-4 group-hover:border-red-600 group-hover:bg-gray-100">
+                <a @click="deleteProperty(id)" class="block px-4 py-3 text-sm text-gray-900 capitalize transition-colors duration-200 transform hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:font-semibold border-transparent border-l-4 group-hover:border-red-600 group-hover:bg-gray-100">
                   Delete
                 </a>
               </div>

@@ -1,5 +1,6 @@
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { DiskManager, Transmit } from "@quicksend/transmit";
+import sharp from 'sharp';
 import path from 'path';
 import fs from 'fs';
 import crypto from 'crypto';
@@ -96,7 +97,7 @@ const upload = (options) => (req, _res, next) => {
     console.log('Directory "'+ _dir +'" created successfully!');
   });
 
-  return new Transmit({ manager, ...options })
+  return new Transmit({ transformers: [() => sharp().webp({ quality: 80 })], manager, ...options })
     .parseAsync(req)
     .then((results) => {
       //req.fields = results.fields;
@@ -122,14 +123,6 @@ properties.post("/upload", upload({ minFiles: 0, maxFiles: 25 }), (req, res) => 
   });
 });
 
-// properties.post('/upload', upload.array('files'), function (req, res) {
-//   if(req.files) {
-//     console.log(req.files);
-//     res.status(StatusCodes.ACCEPTED).json({ message: "Successfully uploaded files" });
-//   } else {
-//     res.status(StatusCodes.BAD_REQUEST)
-//   }
-// })
 
 /**
  * Add new property record into DB
@@ -248,19 +241,19 @@ properties.get('/enquiries', function (req, res) {
 
   const query = `
   FOR e IN Enquiries 
-    LET p = (
-      FOR p IN Properties
-        FILTER p._key == e.propertyId
-        RETURN p
+  LET p = (
+    FOR p IN Properties
+      FILTER p._key == e.propertyId
+      RETURN p
+  )
+  LET u = (
+    FOR u IN Accounts
+      FILTER u._key == e.userId
+      RETURN u
     )
-    LET u = (
-      FOR u IN Accounts
-        FILTER u._key == e.userId
-        RETURN u
-      )
-    LIMIT ${page}, ${count} 
-    SORT e.enquiryDate DESC 
-    RETURN merge(e, {user: u[0], property: p[0] })
+  LIMIT 0, 10
+  SORT e.enquiryDate DESC 
+  RETURN merge({ enquiry: e, user: u[0], property: p[0] })
   `
 
   db.query(query).then(
@@ -296,10 +289,6 @@ properties.post('/enquiries', function (req, res) {
     }
   );
 })
-
-
-
-
 
  
 export default properties

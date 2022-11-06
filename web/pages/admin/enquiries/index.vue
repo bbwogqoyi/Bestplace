@@ -2,6 +2,7 @@
 import helpers from '../../../utils/propertyHelpers'
 
 const { data } = await useFetch('https://api.bestplace.co.za/enquiries')
+console.log(JSON.stringify(data))
 </script>
 <template>
   <div class="w-full bg-gray-100 py-2">
@@ -30,16 +31,12 @@ const { data } = await useFetch('https://api.bestplace.co.za/enquiries')
           </div>
 
           <!-- Enquiry Table  -->
-          <div class="">
+          <div>
             <table class="min-w-full divide-y divide-gray-200 table-fixed w-full">
-              <thead class="">
+              <thead>
                 <tr>
                   <th scope="col"
-                    class="lg:w-[30%] pr-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
-                    Property
-                  </th>
-                  <th scope="col"
-                    class="w-[15%] hidden lg:table-cell px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    class="w-[20%] hidden lg:table-cell px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
                     User Name
                   </th>
                   <th scope="col"
@@ -47,11 +44,15 @@ const { data } = await useFetch('https://api.bestplace.co.za/enquiries')
                     Email
                   </th>
                   <th scope="col"
+                    class="lg:w-[20%] pr-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Property
+                  </th>
+                  <th scope="col"
                     class="w-[10%] hidden lg:table-cell px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
                     Enquiry Date
                   </th>
                   <th scope="col"
-                    class="w-[15%] px-6 py-3 text-right text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    class="w-[20%] px-6 py-3 text-right text-xs font-semibold text-gray-400 uppercase tracking-wider">
                     Property Cost
                   </th>
                 </tr>
@@ -62,31 +63,57 @@ const { data } = await useFetch('https://api.bestplace.co.za/enquiries')
                     <div class="flex flex-row justify-between items-center">
                       <div class="flex flex-col w-[85%] overflow-x-hidden">
                         <div class="text-sm font-semibold text-gray-700 mb-1 whitespace-normal break-words">
-                          {{ `${item.property.address1}, ${item.property.city}` }}
+                          {{ `${data}` }}
                         </div>
                         <div class="text-xs font-semibold py-1 text-gray-400 w-max">
-                          {{ `${item.property._key} | ${ helpers.getListingDateString(item.property.listingDate)}` }}
+                          {{ `Dummy Text` }}
                         </div>
                       </div>
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500" viewBox="0 0 20 20"
-                        fill="currentColor">
-                        <path
-                          d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                      </svg>
+                      
+                      <!-- floating context menu -->
+                      <span title="Open context menu">
+                        <VDropdown :distance="-10" :skidding="20" :triggers="['focus', 'click']" :popperHideTriggers="['hover']">
+                          <!-- This will be the popover reference (for the events and position) -->
+                          <button class="relative z-10 flex items-center p-2 text-sm text-gray-600 bg-white border-transparent rounded-md  focus:ring-opacity-40 dark:focus:ring-opacity-40 dark:focus:ring-blue-400 focus:ring dark:text-white focus:outline-none group ">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 group-hover:text-gray-900 group-hover:border-black border-b-2 border-gray-300 pb-1" viewBox="0 0 20 20" fill="currentColor">
+                              <path
+                                d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                            </svg>
+                          
+                          </button>
+
+                          <!-- Dropdown menu -->
+                          <template #popper>
+                            <div class="w-56 py-0 overflow-hidden bg-white rounded-md shadow-xl drop-shadow-xl text-gray-900 ">
+                              <div class="cursor-pointer group">
+                                <a @click="editProperty(id)" class="block px-4 py-3 text-sm text-gray-900 capitalize transition-colors duration-200 transform hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:font-semibold border-transparent border-l-4 group-hover:border-blue-600 group-hover:bg-gray-100">
+                                  Edit
+                                </a>
+                              </div>
+                              <div class="cursor-pointer group">
+                                <a @click="deleteProperty(id)" class="block px-4 py-3 text-sm text-gray-900 capitalize transition-colors duration-200 transform hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:font-semibold border-transparent border-l-4 group-hover:border-red-600 group-hover:bg-gray-100">
+                                  Delete
+                                </a>
+                              </div>
+                            </div>
+                          </template>
+                        </VDropdown>
+                      </span>
+                      
                     </div>
                   </td>
                   <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <span class="font-semibold">{{ `${item.user.firstname} ${item.user.lastname}` }}</span>
+                    <span class="font-semibold">{{ `Dummy Text` }}</span>
                   </td>
                   <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <span class="font-semibold">{{ item.user.email }}</span>
+                    <span class="font-semibold">{{ `Dummy Text` }}</span>
                   </td>
                   <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <span class="font-semibold">{{ helpers.getListingDateString(item.enquiryDate) }}</span>
+                    <span class="font-semibold">{{ `Dummy Text` }}</span>
                   </td> 
                   <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <a href="#" class="text-blue-600 font-semibold hover:text-indigo-900">
-                      {{ helpers.getCurrencyString(item.property.purchasePrice) }}
+                      {{ `Dummy Text` }}
                     </a>
                   </td>
                 </tr>

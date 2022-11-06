@@ -34,7 +34,9 @@ const count = ref(0)
         </div>
         
         <div class="w-28 items-center justify-center flex bg-[#007bfc] text-white cursor-pointer rounded-r-lg hover:bg-gradient-to-r hover:from-[#007bfc] hover:to-[#51b9ff]">
-          <span class="font-semibold text-lg">Search</span>
+          <NuxtLink to="/overview">
+            <span class="font-semibold text-lg"  @click="$router.push('/overview')">Search</span>
+          </NuxtLink>
         </div>
       </div>
 
