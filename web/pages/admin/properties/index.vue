@@ -32,7 +32,7 @@ const uploadMultipleFiles = function() {
     for(let i=0; (multipleFiles!=null && i<multipleFiles.length); i+=1) {
       data.append('files', multipleFiles[i])
     }
-    isActive.value = true;
+    // isActive.value = true;
 
     axios.post('https://api.bestplace.co.za/upload', data, {
       headers: { 'Access-Control-Allow-Origin': '*' }
@@ -44,7 +44,7 @@ const uploadMultipleFiles = function() {
       }
     })
   } catch(e) {
-    isActive.value = false;
+    // isActive.value = false;
     throw e 
   }
 }

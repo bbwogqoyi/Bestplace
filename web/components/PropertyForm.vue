@@ -6,7 +6,7 @@ const isLoading = ref(false);
 let multipleFiles = null;
 
 const props = defineProps({
-  property: Object,
+  property: Object
 });
 
 function onMultipleFilesChange (event) {
