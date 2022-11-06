@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
 
@@ -53,7 +53,7 @@ export default {
     }
   }
 }
-</script>
+</script> -->
 
 <script setup lang="ts">
 import { ref } from 'vue'
@@ -134,7 +134,7 @@ const count = ref(0)
  
         </div>
       </div>
-      <div class="w-3/12">
+      <!-- <div class="w-3/12">
         <p class="font-bold">Property Price Trends</p>
         <Bar
           :chart-options="chartOptions"
@@ -146,7 +146,7 @@ const count = ref(0)
           :width="width"
           :height="height"
         />
-            </div>
+      </div> -->
     </div>
   </div>
 </template>
