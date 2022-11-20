@@ -123,7 +123,7 @@ function deleteProperty(id) {
   <td class="hidden lg:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500">
     <span class="font-semibold">{{ helpers.getListingDateString(listingDate) }}</span>
   </td>
-  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-right">
     <a href="#" class="font-semibold text-blue-700">
       {{ helpers.calculateTotalInvestment(purchasePrice, rehabPrice) }}
     </a>

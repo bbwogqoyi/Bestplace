@@ -6,7 +6,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "prod": "node index.js"
   },
   "dependencies": {
     "@quicksend/transmit": "^3.0.1",

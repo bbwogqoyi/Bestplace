@@ -1,13 +1,24 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 import axios from "axios";
 const router = useRouter();
 
-// vars for the image upload
-let singleFile = null;
+let endpoints = {
+  dev: "http://localhost:5001",
+  prod: "https://api.bestplace.co.za"
+}
 
 const propertyDetails = ref({});
 
+
+// vars for the image upload
+let multipleFiles = null;
+let onMultipleFilesChange = function(files) {
+  multipleFiles = files;
+}
+
+
+let singleFile = null;
 function onSingleFileChange (event) {
   singleFile = event.target.files[0];
 }
@@ -29,12 +40,15 @@ const uploadMultipleFiles = function() {
   try {
     const data = new FormData();
   
+    console.log('multipleFiles -> '+JSON.stringify(multipleFiles))
     for(let i=0; (multipleFiles!=null && i<multipleFiles.length); i+=1) {
       data.append('files', multipleFiles[i])
     }
     // isActive.value = true;
 
-    axios.post('https://api.bestplace.co.za/upload', data, {
+    
+
+    axios.post(`${endpoints.prod}/upload`, data, {
       headers: { 'Access-Control-Allow-Origin': '*' }
     })
     .then(function(res) {
@@ -55,7 +69,7 @@ const persistPropertyInfo = function(files, filesDir) {
     data['images'] = files;
     data['imagesDir'] = filesDir;
 
-    axios.post('https://api.bestplace.co.za/properties', data, {
+    axios.post(`${endpoints.prod}/properties`, data, {
       headers: { 'Access-Control-Allow-Origin': '*' }
     })
     .then(function(res) {
@@ -73,7 +87,7 @@ const persistPropertyInfo = function(files, filesDir) {
 
 <template>
   <div>
-    <PropertyForm :property="propertyDetails" />
+    <PropertyForm :property="propertyDetails" @MultipleFilesChange="onMultipleFilesChange" />
 
     <div class="w-full bg-gray-100 py-2">
       <div class="w-full lg:w-4/5 mx-auto pb-10 bg-gray-100">
@@ -93,6 +107,5 @@ const persistPropertyInfo = function(files, filesDir) {
         </div>
       </div>
     </div>
-
   </div>
 </template>

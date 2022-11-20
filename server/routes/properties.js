@@ -85,10 +85,17 @@ properties.get('/properties', function (req, res) {
 const upload = (options) => (req, _res, next) => {
   const _uuid = crypto.randomUUID();
   const _dirname = '/var/www/bestplace/server/uploads/';
+  // const _dirname = 'D:/Repos/bestplace/server/uploads/';
+  
   const _dir = path.join(_dirname, _uuid);
   const manager = new DiskManager({
-    directory: _dir
-  });
+    directory: _dir,
+  })
+  // manager.handleFile = (incomingFile) => {
+  //   incomingFile.name += incomingFile.mimetype
+  //   return  incomingFile
+  // };
+  //console.log(`req: `+JSON.stringify(req.body))
 
   fs.mkdir(_dir, (err) => {
     if (err) {
@@ -97,10 +104,11 @@ const upload = (options) => (req, _res, next) => {
     console.log('Directory "'+ _dir +'" created successfully!');
   });
 
-  return new Transmit({ transformers: [() => sharp().webp({ quality: 80 })], manager, ...options })
-    .parseAsync(req)
+   
+  return new Transmit({ manager, ...options, transformers: [() => sharp().webp({ quality: 80 }).toFormat('webp') ], }) 
+  .parseAsync(req)
     .then((results) => {
-      //req.fields = results.fields;
+      req.fields = results.fields;
       req.files = results.files;
       req.filesDir = _uuid;
       _res.setHeader('Access-Control-Allow-Origin', '*');

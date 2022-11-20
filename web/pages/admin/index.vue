@@ -71,7 +71,7 @@ let properties = ref(data)
                       Listing Date
                     </th>
                     <th scope="col"
-                      class="w-[15%] px-6 py-3 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                      class="w-[15%] px-6 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">
                       Cost Estimate
                     </th>
                   </tr>

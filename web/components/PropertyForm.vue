@@ -1,17 +1,14 @@
 <script setup>
 import { ref } from 'vue'
-const router = useRouter();
 
 const isLoading = ref(false);
-let multipleFiles = null;
-
 const props = defineProps({
   property: Object
 });
 
-function onMultipleFilesChange (event) {
-  multipleFiles = event.target.files;
-}
+
+
+
 </script>
 
 <template>
@@ -217,7 +214,7 @@ function onMultipleFilesChange (event) {
 
         <div class="w-full space-y-4">
           <p class="font-semibold text-2xl ">Property Images</p>
-          <input id="files" name="files" type="file" multiple="multiple" @change="onMultipleFilesChange" 
+          <input id="files" name="files" type="file" multiple="multiple" @change="$emit('MultipleFilesChange', $event.target.files)" 
           class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100 file:outline-none">
         </div>
         

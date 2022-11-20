@@ -7,7 +7,6 @@ const route = useRoute();
 // vars for the image upload
 let multipleFiles = null;
 const isActive = ref(false);
-const id = route.query.id;
 
 // property specific fields
 const propertyDetails = ref({});
@@ -15,7 +14,7 @@ const images = ref([]);
 const imagesDir = ref('');
 
 // retrieve property info from API
-const { data } = await useFetch(`https://api.bestplace.co.za/properties/${id}`);
+const { data } = await useFetch(`https://api.bestplace.co.za/properties/${route.query.id}`);
 propertyDetails.value = data.value
 images.value = data.value.images;
 imagesDir.value = data.value.imagesDir;
