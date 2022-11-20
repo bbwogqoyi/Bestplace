@@ -63,7 +63,7 @@ console.log(JSON.stringify(data))
                     <div class="flex flex-row justify-between items-center">
                       <div class="flex flex-col w-[85%] overflow-x-hidden">
                         <div class="text-sm font-semibold text-gray-700 mb-1 whitespace-normal break-words">
-                          {{ `${data}` }}
+                          {{ `${item.firstname}` }}
                         </div>
                         <div class="text-xs font-semibold py-1 text-gray-400 w-max">
                           {{ `Dummy Text` }}
